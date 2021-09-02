@@ -66,7 +66,7 @@ def compute_geohash_tiles(bbox_coordinates, precision = 6):
     center_latitude = (bbox_coordinates[1] + bbox_coordinates[3]) / 2
     center_longitude = (bbox_coordinates[0] + bbox_coordinates[2]) / 2
 
-    center_geohash = geohash.encode(center_latitude, center_longitude, precision=precision)
+    center_geohash = geohash.encode(center_latitude, center_longitude, precision=int(precision))
     geohashes.append(center_geohash)
     geohash_stack.add(center_geohash)
     checked_geohashes.add(center_geohash)
@@ -90,7 +90,7 @@ def get_geohash_grid_df(gdf, precision = 6):
 	union_geom = cascaded_union(geoms)
 
 	# Get union_geom bounding box to determine Geohash grid limits
-	geohash_list = compute_geohash_tiles(union_geom.bounds, 6)
+	geohash_list = compute_geohash_tiles(union_geom.bounds, precision)
 
 	geohash_poly_list = []
 	for geohash_str in geohash_list:
@@ -136,6 +136,8 @@ if filename:
 			
 			print('Enter geohash precision: (for default = 6, leave blank)')
 			geohash_precision = input()
+			if geohash_precision == '':
+				geohash_precision = 6
 			# Transform the union of all geometries into a Geohash grid. The geometries must be polygons
 			gdf = gpd.GeoDataFrame(df, geometry=df[wkt_col].apply(wkt.loads))
 			
@@ -151,7 +153,10 @@ if filename:
 			# Handle as GeoJSON
 			print('Enter geohash precision: (for default = 6, leave blank)')
 			geohash_precision = input()
-			
+
+			if geohash_precision == '':
+				geohash_precision = 6
+
 			gdf = gpd.read_file(filename)
 			geohash_df = get_geohash_grid_df(gdf, geohash_precision)
 
