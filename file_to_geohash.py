@@ -134,10 +134,12 @@ if filename:
 				else:
 					ask = False
 			
+			print('Enter geohash precision: (for default = 6, leave blank)')
+			geohash_precision = input()
 			# Transform the union of all geometries into a Geohash grid. The geometries must be polygons
 			gdf = gpd.GeoDataFrame(df, geometry=df[wkt_col].apply(wkt.loads))
 			
-			geohash_df = get_geohash_grid_df(gdf)
+			geohash_df = get_geohash_grid_df(gdf, geohash_precision)
 
 			save_path = asksaveasfilename()
 
@@ -147,8 +149,11 @@ if filename:
 
 		elif file_ext == '.geojson':
 			# Handle as GeoJSON
+			print('Enter geohash precision: (for default = 6, leave blank)')
+			geohash_precision = input()
+			
 			gdf = gpd.read_file(filename)
-			geohash_df = get_geohash_grid_df(gdf)
+			geohash_df = get_geohash_grid_df(gdf, geohash_precision)
 
 			save_path = asksaveasfilename()
 
