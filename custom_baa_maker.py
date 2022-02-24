@@ -2,8 +2,9 @@
 What does this script have to do? What should it offer the user?
 
 Use cases:
-    - We have N branches whose BAAs (independently if default or custom/restricted) need to be restricted to X given zones.
-    - We have N branches that have custom/not-default BAAs, but need to be freed from any restriction.
+    - Restrict: We have N branches whose BAAs (independently if default or custom/restricted) need to be restricted to X given zones.
+    - Free up: We have N branches that have custom/not-default BAAs, but need to be freed from any restriction.
+    - [NOT COMPLETE] Extend to zone: extend current BAA with a zone's geometry.
 
 What should its output be?
     - The user wants the GeoJSON Django Admin-ready files for implementation for each N branches.
